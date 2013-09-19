@@ -15,6 +15,10 @@
  */
 package org.springframework.social.facebook.config.annotation;
 
+import java.util.Map;
+
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.social.config.annotation.AbstractProviderConfigRegistrarSupport;
 import org.springframework.social.facebook.api.Facebook;
@@ -38,5 +42,16 @@ public class FacebookProviderConfigRegistrar extends AbstractProviderConfigRegis
 		return FacebookAuthenticationService.class;
 	}
 	
+	@Override
+	protected BeanDefinition getConnectionFactoryBeanDefinition(String appId, String appSecret, Map<String, Object> allAttributes) {
+		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FacebookConnectionFactory.class).addConstructorArgValue(appId).addConstructorArgValue(appSecret);
+		if (allAttributes.containsKey("appNamespace")) {
+			String appNamespace = String.valueOf(allAttributes.get("appNamespace"));
+			if (appNamespace.length() > 0) {
+				builder.addConstructorArgValue(appNamespace);
+			}
+		}
+		return builder.getBeanDefinition();
+	}
 
 }

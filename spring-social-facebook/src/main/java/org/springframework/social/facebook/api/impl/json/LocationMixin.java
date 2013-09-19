@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Craig Walls
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class LocationMixin {
+abstract class LocationMixin extends FacebookObjectMixin {
 	
 	@JsonCreator
 	LocationMixin(
